@@ -1,0 +1,26 @@
+/* ONȚICĂ Alexandra-Elena - 311CB */
+
+in AlocCelula
+urm si pre merg catre NULL ca sa pot folosi functia si pt coada 
+nu creez din start o lista circulara, fac legaturile astea in alte fct unde am nevoie 
+info e char pointer tot pt ca vreau sa refolosesc structura si restul functiilor si pentru coada
+
+ma mai gandesc daca merge altfel
+
+
+de implementat:
+MOVE_LEFT     Q
+MOVE_RIGHT     Q
+<!-- WRITE <C> -->    Q
+CLEAR_CELL     Q
+CLEAR_ALL     Q
+INSERT_LEFT <C>     Q
+INSERT_RIGHT <C>     Q
+SEARCH <S>     Q
+SEAECH_LEFT <S>   Q
+SEARCH_RIGHT <S>   Q
+<!-- SHOW_CURRENT -->
+<!-- SHOW -->
+SWITCH
+EXECUTE
+    
