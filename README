@@ -9,18 +9,22 @@ ma mai gandesc daca merge altfel
 
 
 de implementat:
-MOVE_LEFT     Q
-MOVE_RIGHT     Q
-<!-- WRITE <C> -->    Q
-CLEAR_CELL     Q
-CLEAR_ALL     Q
-INSERT_LEFT <C>     Q
-INSERT_RIGHT <C>     Q
-SEARCH <S>     Q
-SEAECH_LEFT <S>   Q
-SEARCH_RIGHT <S>   Q
+    SEARCH <S>     Q
+    SEAECH_LEFT <S>   Q
+    SEARCH_RIGHT <S>   Q
+//SWITCH
+
+
+
 <!-- SHOW_CURRENT -->
 <!-- SHOW -->
-SWITCH
-EXECUTE
-    
+//MOVE_LEFT     Q
+//MOVE_RIGHT     Q
+//WRITE <C>    Q
+//CLEAR_CELL     Q
+//CLEAR_ALL     Q
+//INSERT_LEFT <C>     Q
+//INSERT_RIGHT <C>     Q
+//EXECUTE
+InsertRight(tren, comanda); //!! de verificat codul de iesire al fct
+InsertLeft(fout, tren, "$"); //!! de verificat codul de iesire al fct

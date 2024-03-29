@@ -3,6 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define L_MAX_COMANDA 12
+#define L_MAX_STR 200
+#define POZ_CHR_INSERT_RIGHT 12
+#define POZ_CHR_INSERT_LEFT 11
+#define POZ_SEARCH 6
+
 typedef struct celula {
     char *info;
     struct celula *pre, *urm;
@@ -21,6 +27,17 @@ void CloseFiles(FILE *fin, FILE *fout);
 TLista AlocCelula(char *elem);
 TTren* InitTren();
 TCoada* InitQ();
+int IntrQ(TCoada *c, char *comanda);
+int ExtrQ(TCoada *c, char *comanda);
+void MoveLeft(TTren *t);
+void MoveRight(TTren *t);
+void Write(TTren *t, char *comanda);
+void ClearCell(TTren *t);
+void ClearAll(TTren *t);
+int InsertLeft(FILE *fout, TTren *t, char *comanda);
+int InsertRight(TTren *t, char *comanda);
+void Search(FILE *fout, TTren *t, char *comanda);
 void Show(FILE *fout, TTren *t);
 void ShowCurrent(FILE *fout, TTren *t);
-void Write(FILE *fin, TTren *t);
+void Switch(TCoada *c);
+int Execute(FILE *fout, TCoada *c, TTren *t);
