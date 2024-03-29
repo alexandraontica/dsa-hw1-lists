@@ -37,15 +37,16 @@ int main()
     }
 
     int nr_comenzi = 0, i = 0;
-    char *comanda = (char *)malloc(L_MAX_STR + L_MAX_COMANDA + 1);
+    char comanda[L_MAX_STR + L_MAX_COMANDA + 1];
 
     fscanf(fin, "%d", &nr_comenzi);
-    //fgetc(fin);
-
-    for(i = 0; i <= nr_comenzi; i++) {
-        //fscanf(fin, "%s", comanda);
-        fgets(comanda, L_MAX_STR + L_MAX_COMANDA + 1, fin);
-        if (comanda[strlen(comanda) - 1] == '\n') comanda[strlen(comanda) - 1] = '\0';
+    
+    for(i = 0; i < nr_comenzi; i++) {
+        fscanf(fin, "%s", comanda);
+        // fgets(comanda, L_MAX_STR + L_MAX_COMANDA + 1, fin);
+        // if (comanda[strlen(comanda) - 1] == '\n') {
+        //     comanda[strlen(comanda) - 1] = '\0';
+        // }
         printf("%s\n", comanda);
 
         if (strcmp(comanda, "SHOW") == 0) {
@@ -55,26 +56,10 @@ int main()
         } else if (strncmp(comanda, "WRITE", 5) == 0 || strncmp(comanda, "INSERT_RIGHT", 12) == 0
                    || strncmp(comanda, "INSERT_LEFT", 11) == 0 || strncmp(comanda, "SEARCH", 6) == 0
                    || strncmp(comanda, "SEARCH_RIGHT", 12) == 0) {  // cred ca poti sa bagi aici si search left si right
-            // char arg[L_MAX_STR + 1];  // am presupus ca string-ul pe care il caut nu este mai lung de 200 de caractere
-            // fscanf(fin, "%s", arg);  // citeste caracterul care trebuie inscriptionat pe vagon
-            // // citirea merge doar daca string ul de la search nu are spatii, vezi daca iti trec testele
-
-            // if (strlen(comanda) + strlen(arg) > L_MAX_STR + L_MAX_COMANDA) {
-            //     char *aux = (char *)realloc(comanda, strlen(comanda) + strlen(arg) + 10);
-            //     if (!aux) {
-            //         // elibereaza memoria alocata
-            //         // mesaj eroare
-            //         CloseFiles(fin, fout);
-            //         return 0;
-            //     }
-            //     comanda = aux;
-            // }
-            // strcat(comanda, arg);
-            // printf("%s %ld\n", arg, strlen(arg));
-            // // char str[strlen(comanda) + strlen(arg) + 2];
-            // // strcpy(str, comanda);
-            // // strcat(str, arg);
-            // // printf("%s\n", str);
+            char arg[L_MAX_STR + 1];
+            fscanf(fin, "%s", arg);  
+            strcat(comanda, arg);
+            printf("%s\n", comanda);          
 
             int rez = IntrQ(coada, comanda);
             if (!rez) {

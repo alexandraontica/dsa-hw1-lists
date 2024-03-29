@@ -40,7 +40,7 @@ TTren* InitTren()
         return NULL;
     }
 
-    t->locomotiva = AlocCelula("");  // informatia din santinela nu va fi folosita
+    t->locomotiva = AlocCelula(" ");  // informatia din santinela nu va fi folosita
     if (!t->locomotiva) {
         free(t);
         return NULL;
@@ -187,7 +187,7 @@ int InsertLeft(FILE *fout, TTren *t, char *comanda)
     }
     
     char chr[2];
-    chr[0] = comanda[POZ_CHR_INSERT_LEFT + 1];
+    chr[0] = comanda[POZ_CHR_INSERT_LEFT];
 
     TLista vagon = AlocCelula(chr);
     if(!vagon) {
@@ -208,7 +208,7 @@ int InsertRight(TTren *t, char *comanda)
 /* intoarce 1: inserarea a reusit, 0: in caz contrar */
 {
     char chr[2];
-    chr[0] = comanda[POZ_CHR_INSERT_RIGHT + 1];
+    chr[0] = comanda[POZ_CHR_INSERT_RIGHT];
 
     TLista vagon = AlocCelula(chr);
     if(!vagon) {
