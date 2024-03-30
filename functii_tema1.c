@@ -187,7 +187,7 @@ int InsertLeft(FILE *fout, TTren *t, char *comanda)
     }
     
     char chr[2];
-    chr[0] = comanda[POZ_CHR_INSERT_LEFT];
+    chr[0] = comanda[POZ_CHR_LEFT];
 
     TLista vagon = AlocCelula(chr);
     if(!vagon) {
@@ -208,7 +208,7 @@ int InsertRight(TTren *t, char *comanda)
 /* intoarce 1: inserarea a reusit, 0: in caz contrar */
 {
     char chr[2];
-    chr[0] = comanda[POZ_CHR_INSERT_RIGHT];
+    chr[0] = comanda[POZ_CHR_RIGHT];
 
     TLista vagon = AlocCelula(chr);
     if(!vagon) {
@@ -228,30 +228,36 @@ int InsertRight(TTren *t, char *comanda)
 void Search(FILE *fout, TTren *t, char *comanda)
 {
     char *de_cautat = comanda + POZ_SEARCH;
-    char inscriptii[L_MAX_STR + 1];
+    char inscriptii[L_MAX_STR + 1] = "";
     strcpy(inscriptii, t->mecanic->info);
-    TLista vagon = t->mecanic->urm;
+
+    TLista vagon = t->mecanic;
+    if (vagon->urm == t->locomotiva) {
+        vagon = t->locomotiva->urm;
+    } else {
+        vagon = vagon->urm;
+    }
+
     int nr_chr = 1;
     int len = strlen(de_cautat);
 
-    while(vagon != t->mecanic) {
+    while (vagon != t->mecanic) {
         nr_chr++;
 
-        if(nr_chr < len) {
+        if(nr_chr <= len) {
             strcat(inscriptii, vagon->info);
         } else {
             strcpy(inscriptii, inscriptii + 1);
             strcat(inscriptii, vagon->info);
 
             if (strcmp(inscriptii, de_cautat) == 0) {
-                for (int i = 1; i < nr_chr - len; i++) {
+                for (int i = 1; i < nr_chr - len + 1; i++) {
                     if (t->mecanic->urm == t->locomotiva) {
                         t->mecanic = t->locomotiva->urm;
                     } else {
                         t->mecanic = t->mecanic->urm;
                     }
                 }
-
                 return;
             }
         }
@@ -263,44 +269,108 @@ void Search(FILE *fout, TTren *t, char *comanda)
         }
     }
 
+    if (strcmp(inscriptii, de_cautat) == 0) {
+        for (int i = 1; i < nr_chr - len + 1; i++) {
+            if (t->mecanic->urm == t->locomotiva) {
+                t->mecanic = t->locomotiva->urm;
+            } else {
+                t->mecanic = t->mecanic->urm;
+            }
+        }
+        return;
+    }
+
     fprintf(fout, "ERROR\n");
 }
 
-void SearchRight(FILE *fout, TTren *t, char *comanda) 
+void SearchLeft(FILE *fout, TTren *t, char *comanda)
 {
-    char *de_cautat = comanda + POZ_SEARCH;
-    char inscriptii[L_MAX_STR + 1];
-    strcpy(inscriptii, t->mecanic->info);
-    TLista vagon = t->mecanic->urm;
-    int nr_chr = 1;
+    char *de_cautat = comanda + POZ_CHR_LEFT;
+    char inscriptii[L_MAX_STR + 1] = "";  // initializare sir vid
+    TLista vagon = t->mecanic->pre;
+    int nr_chr = 0;
     int len = strlen(de_cautat);
 
     while(vagon != t->locomotiva) {
         nr_chr++;
 
-        if(nr_chr < len) {
+        if(nr_chr <= len) {
+            strcat(inscriptii, vagon->info);
+        } else {
+            strcpy(inscriptii, inscriptii + 1);
+            strcat(inscriptii, vagon->info);
+
+            char rev[strlen(inscriptii) + 1];
+            int len2 = strlen(inscriptii);
+
+            for (int i = 0; i < len2; i++) {
+                rev[i] = inscriptii[len2 - i - 1];
+            }
+            rev[len2] = '\0';
+
+            if (strcmp(rev, de_cautat) == 0) {
+                for (int i = 1; i < nr_chr - len + 1; i++) {
+                    t->mecanic = t->mecanic->pre;
+                }
+                return;
+            }
+        }
+
+        vagon = vagon->pre;
+    }
+
+    char rev[strlen(inscriptii) + 1];
+    int len2 = strlen(inscriptii);
+
+    for (int i = 0; i < len2; i++) {
+        rev[i] = inscriptii[len2 - i - 1];
+    }
+    rev[len2] = '\0';
+
+    if (strcmp(rev, de_cautat) == 0) {
+        for (int i = 1; i < nr_chr - len + 2; i++) {
+            t->mecanic = t->mecanic->pre;
+        }
+        return;
+    }
+
+    fprintf(fout, "ERROR\n");
+}
+
+void SearchRight(FILE *fout, TTren *t, char *comanda) 
+{
+    char *de_cautat = comanda + POZ_CHR_RIGHT;
+    char inscriptii[L_MAX_STR + 1] = "";
+    //strcpy(inscriptii, t->mecanic->info);
+    TLista vagon = t->mecanic->urm;
+    int nr_chr = 0;  
+    int len = strlen(de_cautat);
+
+    while(vagon != t->locomotiva) {
+        nr_chr++;
+
+        if(nr_chr <= len) {
             strcat(inscriptii, vagon->info);
         } else {
             strcpy(inscriptii, inscriptii + 1);
             strcat(inscriptii, vagon->info);
 
             if (strcmp(inscriptii, de_cautat) == 0) {
-                for (int i = 1; i < nr_chr - len; i++) {
-                    if (t->mecanic->urm == t->locomotiva) {
-                        t->mecanic = t->locomotiva->urm;
-                    } else {
-                        t->mecanic = t->mecanic->urm;
-                    }
+                for (int i = 1; i < nr_chr - len + 1; i++) {
+                    t->mecanic = t->mecanic->urm;
                 }
                 return;
             }
         }
 
-        if (vagon->urm == t->locomotiva) {
-            vagon = t->locomotiva->urm;
-        } else {
-            vagon = vagon->urm;
+        vagon = vagon->urm;
+    }
+
+    if (strcmp(inscriptii, de_cautat) == 0) {
+        for (int i = 1; i < nr_chr - len + 1; i++) {
+            t->mecanic = t->mecanic->urm;
         }
+        return;
     }
 
     fprintf(fout, "ERROR\n");
@@ -378,12 +448,13 @@ int Execute(FILE *fout, TCoada *c, TTren *t)
         if (!rez) {
             return 0;
         }
-    } else if (strncmp(comanda, "SEARCH", 6) == 0){
-        Search(fout, t, comanda);
-    } else if (strncmp(comanda, "SEARCH_RIGHT", 12) == 0){
+    } else if (strncmp(comanda, "SEARCH_RIGHT", 12) == 0) {
         SearchRight(fout, t, comanda);
+    } else if (strncmp(comanda, "SEARCH_LEFT", 11) == 0) {
+        SearchLeft(fout, t, comanda);
+    } else if (strncmp(comanda, "SEARCH", 6) == 0) {
+        Search(fout, t, comanda);
     }
-    /* SEAECH_LEFT <S> */
 
     return 1;
 }

@@ -53,9 +53,8 @@ int main()
             Show(fout, tren);
         } else if (strcmp(comanda, "SHOW_CURRENT") == 0) {
             ShowCurrent(fout, tren);
-        } else if (strncmp(comanda, "WRITE", 5) == 0 || strncmp(comanda, "INSERT_RIGHT", 12) == 0
-                   || strncmp(comanda, "INSERT_LEFT", 11) == 0 || strncmp(comanda, "SEARCH", 6) == 0
-                   || strncmp(comanda, "SEARCH_RIGHT", 12) == 0) {  // cred ca poti sa bagi aici si search left si right
+        } else if (strncmp(comanda, "WRITE", 5) == 0 || strncmp(comanda, "INSERT", 6) == 0
+                   || strncmp(comanda, "SEARCH", 6) == 0) {
             char arg[L_MAX_STR + 1];
             fscanf(fin, "%s", arg);  
             strcat(comanda, arg);
@@ -68,8 +67,7 @@ int main()
                 CloseFiles(fin, fout);
                 return 0;
             }
-        } else if (strcmp(comanda, "MOVE_RIGHT") == 0 || strcmp(comanda, "MOVE_LEFT") == 0
-                   || strcmp(comanda, "CLEAR_CELL") == 0 || strcmp(comanda, "CLEAR_ALL") == 0) {
+        } else if (strncmp(comanda, "MOVE", 4) == 0 || strncmp(comanda, "CLEAR", 5) == 0) {
             int rez = IntrQ(coada, comanda);
             if (!rez) {
                 // elibereaza memoria alocata

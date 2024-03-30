@@ -5,8 +5,8 @@
 
 #define L_MAX_COMANDA 12
 #define L_MAX_STR 200
-#define POZ_CHR_INSERT_RIGHT 12
-#define POZ_CHR_INSERT_LEFT 11
+#define POZ_CHR_RIGHT 12
+#define POZ_CHR_LEFT 11
 #define POZ_SEARCH 6
 
 typedef struct celula {
@@ -37,6 +37,8 @@ void ClearAll(TTren *t);
 int InsertLeft(FILE *fout, TTren *t, char *comanda);
 int InsertRight(TTren *t, char *comanda);
 void Search(FILE *fout, TTren *t, char *comanda);
+void SearchLeft(FILE *fout, TTren *t, char *comanda);
+void SearchRight(FILE *fout, TTren *t, char *comanda);
 void Show(FILE *fout, TTren *t);
 void ShowCurrent(FILE *fout, TTren *t);
 void Switch(TCoada *c);

@@ -9,8 +9,6 @@ ma mai gandesc daca merge altfel
 
 
 de implementat:
-    SEARCH <S>     Q
-    SEAECH_LEFT <S>   Q
     SEARCH_RIGHT <S>   Q
 //SWITCH
 
@@ -28,3 +26,5 @@ de implementat:
 //EXECUTE
 InsertRight(tren, comanda); //!! de verificat codul de iesire al fct
 InsertLeft(fout, tren, "$"); //!! de verificat codul de iesire al fct
+//SEARCH <S>     Q
+//SEAECH_LEFT <S>   Q
