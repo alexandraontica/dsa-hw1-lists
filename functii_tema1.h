@@ -37,6 +37,7 @@ void ClearAll(TTren *t);
 int InsertLeft(FILE *fout, TTren *t, char *comanda);
 int InsertRight(TTren *t, char *comanda);
 void Search(FILE *fout, TTren *t, char *comanda);
+void ReverseStr(char **rev, char *inscriptii);
 void SearchLeft(FILE *fout, TTren *t, char *comanda);
 void SearchRight(FILE *fout, TTren *t, char *comanda);
 void Show(FILE *fout, TTren *t);

@@ -77,9 +77,7 @@ int main()
                 return 0;
             }
         } else if (strcmp(comanda, "EXECUTE") == 0) {
-            printf("10\n");
             int rez = Execute(fout, coada, tren);
-            printf("11\n");
             if (!rez) {
                 fprintf(fout, "Executarea unei comenzi nu a reusit\n");
                 FreeAll(tren, coada);
