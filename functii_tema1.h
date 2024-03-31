@@ -43,3 +43,7 @@ void Show(FILE *fout, TTren *t);
 void ShowCurrent(FILE *fout, TTren *t);
 void Switch(TCoada *c);
 int Execute(FILE *fout, TCoada *c, TTren *t);
+void FreeTren(TTren **t);
+void ResetQ(TCoada *c);
+void FreeQ(TCoada **c);
+void FreeAll(TTren *t, TCoada *c);

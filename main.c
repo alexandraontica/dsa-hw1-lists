@@ -3,14 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "functii_tema1.h"
-// de scos -Wall -Werror din Makefile la final
+// de scos -Wall -Werror -g din Makefile la final
 int main()
 {
     FILE *fin = fopen("tema1.in", "r");
 
     if (fin == NULL) {
         fprintf(stderr, "Fisierul de intrare nu a fost deschis\n");
-        return 0;
+        return 0;  // se poate intoarce si 1 (cod de eroare), dar cerinta nu specifica acest lucru
     }
 
     FILE *fout = fopen("tema1.out", "w");
@@ -30,8 +30,8 @@ int main()
 
     TCoada *coada = InitQ();
     if (!coada) {
-        // free tren - de scris functie
         fprintf(fout, "Crearea cozii pentru comenzi nu a reusit\n");
+        FreeTren(&tren);
         CloseFiles(fin, fout);
         return 0;
     }
@@ -55,31 +55,34 @@ int main()
             ShowCurrent(fout, tren);
         } else if (strncmp(comanda, "WRITE", 5) == 0 || strncmp(comanda, "INSERT", 6) == 0
                    || strncmp(comanda, "SEARCH", 6) == 0) {
-            char arg[L_MAX_STR + 1];
+            char arg[L_MAX_STR + 1];  /* presupun ca string-ul pe care il caut la comenzile SEARCH 
+                                         nu e mai lung de 200 caractere */
             fscanf(fin, "%s", arg);  
             strcat(comanda, arg);
             printf("%s\n", comanda);          
 
             int rez = IntrQ(coada, comanda);
             if (!rez) {
-                // elibereaza memoria alocata
                 fprintf(fout, "Adaugarea in coada nu a reusit\n");
+                FreeAll(tren, coada);
                 CloseFiles(fin, fout);
                 return 0;
             }
         } else if (strncmp(comanda, "MOVE", 4) == 0 || strncmp(comanda, "CLEAR", 5) == 0) {
             int rez = IntrQ(coada, comanda);
             if (!rez) {
-                // elibereaza memoria alocata
                 fprintf(fout, "Adaugarea in coada nu a reusit\n");
+                FreeAll(tren, coada);
                 CloseFiles(fin, fout);
                 return 0;
             }
         } else if (strcmp(comanda, "EXECUTE") == 0) {
+            printf("10\n");
             int rez = Execute(fout, coada, tren);
+            printf("11\n");
             if (!rez) {
-                // elibereaza memoria alocata
                 fprintf(fout, "Executarea unei comenzi nu a reusit\n");
+                FreeAll(tren, coada);
                 CloseFiles(fin, fout);
                 return 0;
             }
@@ -88,8 +91,7 @@ int main()
         }
     }
 
-    // de eliberat tot ce am alocat: tren, coada (cel mai bine faci o functie)
-
+    FreeAll(tren, coada);
     CloseFiles(fin, fout);
 
     return 0;

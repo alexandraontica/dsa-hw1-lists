@@ -15,7 +15,7 @@ dar aceste copii "pointeaza" catre aceleasi fisiere */
 
 TLista AlocCelula(char *elem)
 {
-    TLista aux = (TLista)malloc(sizeof(TCelula));
+    TLista aux = (TLista)calloc(1, sizeof(TCelula));
     if (!aux) {
         return NULL;
     }
@@ -35,7 +35,7 @@ TLista AlocCelula(char *elem)
 TTren* InitTren()
 /* initializare tren: creare lista circulara cu santinela (locomotiva), atasare vagon; salvare adresa vagon 1 */
 {
-    TTren *t = (TTren *)malloc(sizeof(TTren));
+    TTren *t = (TTren *)calloc(1, sizeof(TTren));
     if (!t) {
         return NULL;
     }
@@ -67,7 +67,7 @@ TTren* InitTren()
 TCoada* InitQ()
 /* creare coada vida */
 {
-    TCoada *c = (TCoada *)malloc(sizeof(TCoada));
+    TCoada *c = (TCoada *)calloc(1, sizeof(TCoada));
     if (!c) {
         return NULL;
     }
@@ -186,7 +186,7 @@ int InsertLeft(FILE *fout, TTren *t, char *comanda)
         functia afiseaza ceea ce cere cerinta */
     }
     
-    char chr[2];
+    char chr[2] = "";
     chr[0] = comanda[POZ_CHR_LEFT];
 
     TLista vagon = AlocCelula(chr);
@@ -207,7 +207,7 @@ int InsertLeft(FILE *fout, TTren *t, char *comanda)
 int InsertRight(TTren *t, char *comanda)
 /* intoarce 1: inserarea a reusit, 0: in caz contrar */
 {
-    char chr[2];
+    char chr[2] = "";
     chr[0] = comanda[POZ_CHR_RIGHT];
 
     TLista vagon = AlocCelula(chr);
@@ -244,7 +244,7 @@ void Search(FILE *fout, TTren *t, char *comanda)
     while (vagon != t->mecanic) {
         nr_chr++;
 
-        if(nr_chr <= len) {
+        if (nr_chr <= len) {
             strcat(inscriptii, vagon->info);
         } else {
             strcpy(inscriptii, inscriptii + 1);
@@ -291,10 +291,10 @@ void SearchLeft(FILE *fout, TTren *t, char *comanda)
     int nr_chr = 0;
     int len = strlen(de_cautat);
 
-    while(vagon != t->locomotiva) {
+    while (vagon != t->locomotiva) {
         nr_chr++;
 
-        if(nr_chr <= len) {
+        if (nr_chr <= len) {
             strcat(inscriptii, vagon->info);
         } else {
             strcpy(inscriptii, inscriptii + 1);
@@ -328,7 +328,7 @@ void SearchLeft(FILE *fout, TTren *t, char *comanda)
     rev[len2] = '\0';
 
     if (strcmp(rev, de_cautat) == 0) {
-        for (int i = 1; i < nr_chr - len + 2; i++) {
+        for (int i = 1; i < nr_chr - len + 2; i++) {  // +2 pt ca trec si de locomotiva
             t->mecanic = t->mecanic->pre;
         }
         return;
@@ -345,15 +345,21 @@ void SearchRight(FILE *fout, TTren *t, char *comanda)
     TLista vagon = t->mecanic->urm;
     int nr_chr = 0;  
     int len = strlen(de_cautat);
+    printf("1\n");
 
-    while(vagon != t->locomotiva) {
+    while (vagon != t->locomotiva) {
         nr_chr++;
+        printf("2\n");
 
-        if(nr_chr <= len) {
+        if (nr_chr <= len) {
             strcat(inscriptii, vagon->info);
+            printf("3\n");
         } else {
+            printf("4\n");
             strcpy(inscriptii, inscriptii + 1);
+            printf("5\n");
             strcat(inscriptii, vagon->info);
+            printf("6\n");
 
             if (strcmp(inscriptii, de_cautat) == 0) {
                 for (int i = 1; i < nr_chr - len + 1; i++) {
@@ -361,18 +367,19 @@ void SearchRight(FILE *fout, TTren *t, char *comanda)
                 }
                 return;
             }
+            printf("7\n");
         }
 
         vagon = vagon->urm;
     }
-
+printf("8\n");
     if (strcmp(inscriptii, de_cautat) == 0) {
-        for (int i = 1; i < nr_chr - len + 1; i++) {
+        for (int i = 1; i < nr_chr - len + 2; i++) {
             t->mecanic = t->mecanic->urm;
         }
         return;
     }
-
+printf("9\n");
     fprintf(fout, "ERROR\n");
 }
 
@@ -450,6 +457,7 @@ int Execute(FILE *fout, TCoada *c, TTren *t)
         }
     } else if (strncmp(comanda, "SEARCH_RIGHT", 12) == 0) {
         SearchRight(fout, t, comanda);
+        printf("12\n");
     } else if (strncmp(comanda, "SEARCH_LEFT", 11) == 0) {
         SearchLeft(fout, t, comanda);
     } else if (strncmp(comanda, "SEARCH", 6) == 0) {
@@ -458,3 +466,38 @@ int Execute(FILE *fout, TCoada *c, TTren *t)
 
     return 1;
 }
+
+void FreeTren(TTren **t) {
+    ClearAll(*t);
+    free((*t)->locomotiva->urm->info);
+    free((*t)->locomotiva->urm);
+    free((*t)->locomotiva->info);
+    free((*t)->locomotiva);
+    free(*t);
+    *t = NULL;
+}
+
+void ResetQ(TCoada *c)
+{
+    while (c->inc) {
+        TLista aux = c->inc;
+        c->inc = aux->urm;
+        free(aux->info);
+        free(aux);
+    }
+    c->sf = NULL;
+}
+
+void FreeQ(TCoada **c)
+{
+    ResetQ(*c);
+    free(*c);
+    *c = NULL;
+}
+
+void FreeAll(TTren *t, TCoada *c)
+{
+    FreeTren(&t);
+    FreeQ(&c);
+}
+
