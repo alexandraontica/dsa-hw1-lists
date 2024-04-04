@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "functii_tema1.h"
-// de scos -Wall -Werror -g din Makefile la final
+
 int main()
 {
     FILE *fin = fopen("tema1.in", "r");
@@ -23,14 +23,14 @@ int main()
 
     TTren *tren = InitTren();
     if (!tren) {
-        fprintf(fout, "Crearea trenului nu a reusit\n");
+        fprintf(stderr, "Crearea trenului nu a reusit\n");
         CloseFiles(fin, fout);
         return 0;
     }
 
     TCoada *coada = InitQ();
     if (!coada) {
-        fprintf(fout, "Crearea cozii pentru comenzi nu a reusit\n");
+        fprintf(stderr, "Crearea cozii pentru comenzi nu a reusit\n");
         FreeTren(&tren);
         CloseFiles(fin, fout);
         return 0;
@@ -43,11 +43,6 @@ int main()
     
     for(i = 0; i < nr_comenzi; i++) {
         fscanf(fin, "%s", comanda);
-        // fgets(comanda, L_MAX_STR + L_MAX_COMANDA + 1, fin);
-        // if (comanda[strlen(comanda) - 1] == '\n') {
-        //     comanda[strlen(comanda) - 1] = '\0';
-        // }
-        printf("%s\n", comanda);
 
         if (strcmp(comanda, "SHOW") == 0) {
             Show(fout, tren);
@@ -56,10 +51,9 @@ int main()
         } else if (strncmp(comanda, "WRITE", 5) == 0 || strncmp(comanda, "INSERT", 6) == 0
                    || strncmp(comanda, "SEARCH", 6) == 0) {
             char arg[L_MAX_STR + 1];  /* presupun ca string-ul pe care il caut la comenzile SEARCH 
-                                         nu e mai lung de 200 caractere */
+                                         nu e mai lung de 100 caractere */
             fscanf(fin, "%s", arg);  
-            strcat(comanda, arg);
-            printf("%s\n", comanda);          
+            strcat(comanda, arg);          
 
             int rez = IntrQ(coada, comanda);
             if (!rez) {
@@ -71,7 +65,7 @@ int main()
         } else if (strncmp(comanda, "MOVE", 4) == 0 || strncmp(comanda, "CLEAR", 5) == 0) {
             int rez = IntrQ(coada, comanda);
             if (!rez) {
-                fprintf(fout, "Adaugarea in coada nu a reusit\n");
+                fprintf(stderr, "Adaugarea in coada nu a reusit\n");
                 FreeAll(tren, coada);
                 CloseFiles(fin, fout);
                 return 0;
@@ -79,7 +73,7 @@ int main()
         } else if (strcmp(comanda, "EXECUTE") == 0) {
             int rez = Execute(fout, coada, tren);
             if (!rez) {
-                fprintf(fout, "Executarea unei comenzi nu a reusit\n");
+                fprintf(stderr, "Executarea unei comenzi nu a reusit\n");
                 FreeAll(tren, coada);
                 CloseFiles(fin, fout);
                 return 0;

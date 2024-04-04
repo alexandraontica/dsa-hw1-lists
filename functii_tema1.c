@@ -134,7 +134,7 @@ void MoveLeft(TTren *t)
 void MoveRight(TTren *t)
 {
     if (t->mecanic->urm == t->locomotiva) {  // este ultimul vagon
-        InsertRight(t, "#");
+        InsertRight(t, "INSERT_RIGHT#");
     } else {
         t->mecanic = t->mecanic->urm;
     }
@@ -247,7 +247,9 @@ void Search(FILE *fout, TTren *t, char *comanda)
         if (nr_chr <= len) {
             strcat(inscriptii, vagon->info);
         } else {
-            strcpy(inscriptii, inscriptii + 1);
+            char inscriptii2[L_MAX_STR + 1] = "";
+            strcpy(inscriptii2, inscriptii + 1);
+            strcpy(inscriptii, inscriptii2);
             strcat(inscriptii, vagon->info);
         }
 
@@ -276,7 +278,7 @@ void SearchLeft(FILE *fout, TTren *t, char *comanda)
 {
     char *de_cautat = comanda + POZ_CHR_LEFT;
     char inscriptii[L_MAX_STR + 1] = "";  // initializare sir vid
-    TLista vagon = t->mecanic->pre;
+    TLista vagon = t->mecanic;
     int nr_chr = 0;
     int len = strlen(de_cautat);
 
@@ -286,20 +288,14 @@ void SearchLeft(FILE *fout, TTren *t, char *comanda)
         if (nr_chr <= len) {
             strcat(inscriptii, vagon->info);
         } else {
-            strcpy(inscriptii, inscriptii + 1);
+            char inscriptii2[L_MAX_STR + 1] = "";
+            strcpy(inscriptii2, inscriptii + 1);
+            strcpy(inscriptii, inscriptii2);
             strcat(inscriptii, vagon->info);
         }
-        
-        char rev[strlen(inscriptii) + 1];
-        int len2 = strlen(inscriptii);
 
-        for (int i = 0; i < len2; i++) {
-            rev[i] = inscriptii[len2 - i - 1];
-        }
-        rev[len2] = '\0';
-
-        if (strcmp(rev, de_cautat) == 0) {
-            for (int i = 1; i < nr_chr - len + 2; i++) {
+        if (strcmp(inscriptii, de_cautat) == 0) {
+            for (int i = 1; i < nr_chr; i++) {
                 t->mecanic = t->mecanic->pre;
             }
             return;
@@ -315,7 +311,6 @@ void SearchRight(FILE *fout, TTren *t, char *comanda)
 {
     char *de_cautat = comanda + POZ_CHR_RIGHT;
     char inscriptii[L_MAX_STR + 1] = "";
-    //strcpy(inscriptii, t->mecanic->info);
     TLista vagon = t->mecanic->urm;
     int nr_chr = 0;  
     int len = strlen(de_cautat);
@@ -326,20 +321,14 @@ void SearchRight(FILE *fout, TTren *t, char *comanda)
         if (nr_chr <= len) {
             strcat(inscriptii, vagon->info);  
         } else {
-            strcpy(inscriptii, inscriptii + 1);
+            char inscriptii2[L_MAX_STR + 1] = "";
+            strcpy(inscriptii2, inscriptii + 1);
+            strcpy(inscriptii, inscriptii2);
             strcat(inscriptii, vagon->info);
         }
 
-        char rev[strlen(inscriptii) + 1];
-        int len2 = strlen(inscriptii);
-
-        for (int i = 0; i < len2; i++) {
-            rev[i] = inscriptii[len2 - i - 1];
-        }
-        rev[len2] = '\0';
-
-        if (strcmp(rev, de_cautat) == 0) {
-            for (int i = 1; i < nr_chr - len + 2; i++) {
+        if (strcmp(inscriptii, de_cautat) == 0) {
+            for (int i = 1; i < nr_chr + 1; i++) {
                 t->mecanic = t->mecanic->urm;
             }
             return;
@@ -368,7 +357,7 @@ void ShowCurrent(FILE *fout, TTren *t)
     fprintf(fout, "%s\n", t->mecanic->info);
 }
 
-void Switch(TCoada *c)  // incearca sa intelegi ce ai facut aici
+void Switch(TCoada *c)
 {
     if (!c->inc) {  // coada vida
         return;

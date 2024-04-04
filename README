@@ -7,24 +7,5 @@ info e char pointer tot pt ca vreau sa refolosesc structura si restul functiilor
 
 ma mai gandesc daca merge altfel
 
-
-de implementat:
-    SEARCH_RIGHT <S>   Q
 //SWITCH
 
-
-
-<!-- SHOW_CURRENT -->
-<!-- SHOW -->
-//MOVE_LEFT     Q
-//MOVE_RIGHT     Q
-//WRITE <C>    Q
-//CLEAR_CELL     Q
-//CLEAR_ALL     Q
-//INSERT_LEFT <C>     Q
-//INSERT_RIGHT <C>     Q
-//EXECUTE
-InsertRight(tren, comanda); //!! de verificat codul de iesire al fct
-InsertLeft(fout, tren, "$"); //!! de verificat codul de iesire al fct
-//SEARCH <S>     Q
-//SEAECH_LEFT <S>   Q

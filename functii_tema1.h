@@ -4,7 +4,7 @@
 #include <string.h>
 
 #define L_MAX_COMANDA 12
-#define L_MAX_STR 200
+#define L_MAX_STR 100
 #define POZ_CHR_RIGHT 12
 #define POZ_CHR_LEFT 11
 #define POZ_SEARCH 6
