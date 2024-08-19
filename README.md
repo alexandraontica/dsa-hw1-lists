@@ -1,4 +1,4 @@
-/* ONȚICĂ Alexandra-Elena - 311CB */
+*ONȚICĂ Alexandra-Elena - 311CB*
 
 Imi definesc tipul de date TLista ca pointer la o structura cu 3 campuri 
 (info, urm si pre).
@@ -21,31 +21,37 @@ eliberez memoria alocata pentru coada si trenulet si inchid fisierele.
 Despre functiile folosite:
 
 MoveLeft:
+
 Verific daca mecanicul se afla in primul vagon; in caz afirmativ, il mut in 
 celula dinaintea santinelei, adica in ultimul vagon al trenului (lista 
 circulara). Altfel, mut mecanicul in celula anterioara lui.
 
 MoveRight:
+
 Verific daca mecanicul se afla in ultimul vagon; in caz afirmativ, ma 
 folosesc de functia definita ulterior InsertRight, care imi creeaza si 
 leaga un vagon nou cu instriptia #. Altfel, mut mecanicul in celula ce 
 urmeaza dupa mecanic.
 
 Write:
+
 Atribui informatiei vagonului in care se afla mecanicul ultimul caracter 
 din comanda primita ca parametru.
 
 ClearCell:
+
 Daca exista un singur vagon in lista, doar schimb inscriptia acestuia in #.
 Altfel, salvez pozitia mecanicului intr-o variabila auxiliara aux, mut 
 mecanicul folosindu-ma de MoveLeft, rup legaturile celulei de eliminat (aux)
 si eliberez memoria alocata pentru aux.
 
 ClearAll:
+
 Apelez functia ClearCell cat timp trenul are mai mult de un vagon si la
 final inca o data ca sa schimb in # inscriptia vagonului ramas.
 
 InsertLeft:
+
 Afisez ERROR daca mecanicul se afla in celula ce urmeaza dupa santinela.
 Altfel, salvez intr-un string (cu o pozitie) ultimul caracter din comanda
 primita ca parametru. Acest string il folosesc ca parametru pentru functia
@@ -53,9 +59,11 @@ AlocCelula care imi creeaza vagonul ce trebuie inserat. Fac legaturile intre
 noua celula si tren si mut mecanicul in celula noua.
 
 InsertRight:
+
 Similara cu InsertLeft (doar ca aici nu exista "caz de eroare"). 
 
 Search:
+
 Salvez argumentul comenzii SEARCH intr-un string. Creez un vector  de 
 lungimea string-ului cautat cu inscriptiile intalnite prin parcurgerea 
 trenului; cand vectorul de inscriptii atinge lungimea string-ului cautat, 
@@ -67,11 +75,13 @@ Daca sirul cautat este gasit, mut mecanicul pe pozitia de unde incepe
 acesta, avand grija sa sar peste locomotiva.
 
 SearchLeft si SearchRight:
+
 Functioneaza dupa acelasi principiu ca la Search, sunt modificate doar 
 conditiile impuse de cerinta (cautarea se opreste la locomotiva, pozitia 
 mecanicului, sensul de parcurgere).
 
 Switch:
+
 Parcurg coada incepand de la al doilea element.
 c->inc este o lista. Fiecare celula parcursa va fi adaugata, pe rand, la 
 inceputul acestei liste, c->inc. 
